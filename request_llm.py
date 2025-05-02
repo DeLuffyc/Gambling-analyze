@@ -1,6 +1,6 @@
 import requests
 from openai import OpenAI
-from scriptss.config import load_credentials, OPENAI_API, DEEPSEEK
+from scriptss.config import load_credentials, OPENAI_API, DEEPSEEK, PERPLEXITY
 
 creds = load_credentials(OPENAI_API)
 open_ai_key = creds['open_ai']
@@ -81,5 +81,37 @@ def prompt_with_web_search(user_prompt, system_prompt=None):
 
     except Exception as e:
         return f"Ошибка при выполнении запроса: {type(e).__name__}: {e}"
+
+def perplexity(user_prompt, system_prompt):
+    creds = load_credentials(PERPLEXITY)
+    perplexity_key = creds['perplexity']
+
+    url = "https://api.perplexity.ai/chat/completions"
+
+    headers = {
+        "Authorization": f"Bearer {perplexity_key}",
+        "Content-Type": "application/json"
+    }
+
+    payload = {
+        "model": "sonar",
+        "messages": [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt}
+        ],
+        "web_search_options": {
+            "search_context_size": "medium"
+        }
+        #, "search_domain_filter": [
+        #    "hltv.org"
+        #]
+    }
+    try:
+        response = requests.post(url, headers=headers, json=payload)
+        response.raise_for_status()
+        return response.json()["choices"][0]["message"]["content"], 1
+    except Exception as e:
+        return f"Ошибка при выполнении запроса: {e}", 0
+
 
 
