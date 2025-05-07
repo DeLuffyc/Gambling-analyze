@@ -40,10 +40,11 @@ def openai_context_string(system_prompt, user_promt):
         return f"Ошибка при выполнении запроса: {e}"
 
 
-creds = load_credentials(DEEPSEEK)
-deepseek_key = creds['deepseek']
+
 
 def deekpeek_context_string(system_prompt, user_prompt):
+    creds = load_credentials(DEEPSEEK)
+    deepseek_key = creds['deepseek']
     try:
         client = OpenAI(api_key=deepseek_key, base_url="https://api.deepseek.com")
 
@@ -62,6 +63,9 @@ def deekpeek_context_string(system_prompt, user_prompt):
         return f"Ошибка при выполнении запроса: {e}"
 
 def prompt_with_web_search(user_prompt, system_prompt=None):
+    creds = load_credentials(OPENAI_API)
+    open_ai_key = creds['open_ai']
+    client = OpenAI(api_key=open_ai_key)
     try:
         messages = []
         if system_prompt:
