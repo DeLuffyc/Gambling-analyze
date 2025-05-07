@@ -1,0 +1,12 @@
+pyTelegramBotAPI
+reportlab
+aiogram
+requests
+SpeechRecognition
+pydub
+openai
+pandas
+SQLAlchemy
+psycopg2-binary
+imgkit
+scikit-learn
