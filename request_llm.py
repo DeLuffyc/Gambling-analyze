@@ -91,7 +91,7 @@ def prompt_with_web_search(user_prompt, system_prompt=None):
         return f"Ошибка при выполнении запроса: {type(e).__name__}: {e}"
 
 def perplexity(user_prompt, system_prompt):
-    creds = load_credentials(PERPLEXITY)
+    #creds = load_credentials(PERPLEXITY)
     perplexity_key = os.environ.get('perplexity')  #creds['perplexity']
 
     url = "https://api.perplexity.ai/chat/completions"

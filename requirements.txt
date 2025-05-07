@@ -2,7 +2,6 @@ pyTelegramBotAPI
 reportlab
 aiogram
 requests
-SpeechRecognition
 pydub
 openai
 pandas
