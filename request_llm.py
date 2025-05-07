@@ -1,6 +1,7 @@
 import requests
 from openai import OpenAI
 from scriptss.config import load_credentials, OPENAI_API, DEEPSEEK, PERPLEXITY
+import os
 
 creds = load_credentials(OPENAI_API)
 open_ai_key = creds['open_ai']
@@ -84,7 +85,7 @@ def prompt_with_web_search(user_prompt, system_prompt=None):
 
 def perplexity(user_prompt, system_prompt):
     creds = load_credentials(PERPLEXITY)
-    perplexity_key = creds['perplexity']
+    perplexity_key = os.environ.get('perplexity')  #creds['perplexity']
 
     url = "https://api.perplexity.ai/chat/completions"
 

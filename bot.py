@@ -34,8 +34,9 @@ logger = logging.getLogger(__name__)
 
 # Объект бота
 creds = load_credentials(TGRM_BOT_CREDENTIALS)
-TOKEN = creds['tg_prod']
+#TOKEN = creds['tg_prod']
 # TOKEN = creds['tg_test']
+TOKEN = os.environ.get('tg_prod')
 bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode="HTML"))
 
 # Диспетчер
