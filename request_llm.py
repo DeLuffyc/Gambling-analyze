@@ -3,12 +3,12 @@ from openai import OpenAI
 from scriptss.config import load_credentials, OPENAI_API, DEEPSEEK, PERPLEXITY
 import os
 
-creds = load_credentials(OPENAI_API)
-open_ai_key = creds['open_ai']
-client = OpenAI(api_key=open_ai_key)
 
 
 def openai_context_json(system_prompt, user_promt):
+    creds = load_credentials(OPENAI_API)
+    open_ai_key = creds['open_ai']
+    client = OpenAI(api_key=open_ai_key)
     try:
         completion = client.chat.completions.create(
             model="gpt-4o-mini",
@@ -24,6 +24,9 @@ def openai_context_json(system_prompt, user_promt):
 
 
 def openai_context_string(system_prompt, user_promt):
+    creds = load_credentials(OPENAI_API)
+    open_ai_key = creds['open_ai']
+    client = OpenAI(api_key=open_ai_key)
     try:
         completion = client.chat.completions.create(
             model="gpt-4o-mini",
