@@ -16,7 +16,8 @@ import logging
 import pandas as pd
 from aiogram.client.default import DefaultBotProperties
 from request_llm import perplexity
-from handlers.llm_system_prompts import system_prompt_il_v1
+from handlers.llm_system_prompts import system_prompt_il_v1, system_prompt_v1
+from scriptss.json_answer import text_json_answer
 
 
 logging.basicConfig(
@@ -33,11 +34,11 @@ logger = logging.getLogger(__name__)
 #logger.addHandler(console_handler)
 
 # Объект бота
-#creds = load_credentials(TGRM_BOT_CREDENTIALS)
-#TOKEN = creds['tg_prod']
+creds = load_credentials(TGRM_BOT_CREDENTIALS)
+TOKEN = creds['tg_prod']
 # TOKEN = creds['tg_test']
 
-TOKEN = os.environ.get('tg_prod')
+#TOKEN = os.environ.get('tg_prod')
 bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode="HTML"))
 
 # Диспетчер
@@ -91,12 +92,17 @@ async def process_message(message: types.Message):
         if user_session.state == 'start_match':
 
             await message.answer('Получили информацию, дай нам 30 секунд')
-            res, status = perplexity(message_text, system_prompt_il_v1)
+            res, status = perplexity(message_text, system_prompt_v1)
             if status == 0:
                 await message.answer('Произошла ошибка, попробуйте попозже')
                 logging.info(f"Стадия: {user_session.state} --- Сообщение: {message_text}, {res}")
             else:
-                await message.answer(res)
+                answer, status = text_json_answer(res)
+                if status == 0:
+                    await message.answer('Произошла ошибка, попробуйте попозже')
+                    logging.info(f"Стадия: {user_session.state} --- Сообщение: {message_text}, {answer}")
+                else:
+                    await message.answer(answer)
 
 
         elif user_session.state == 'start':
